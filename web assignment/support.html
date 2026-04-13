@@ -1,0 +1,302 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support | History for Tomorrow</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+     <!-- Navigation -->
+
+    <nav id="navbar">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-fist-raised"></i>
+            </div>
+            <div class="logo-text">
+               <span>History for Tomorrow</span>
+            </div>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="education (3).html">Education</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="support.html">SUPPORT</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Support Hero -->
+    <section class="support-hero">
+        <div class="support-hero-content">
+            <h1>Support the Mission</h1>
+            <p>
+                Help us keep memories alive, educate future generations, and create a safe
+                digital space that honors victims and raises awareness about gender-based violence.
+            </p>
+        </div>
+    </section>
+
+    <!-- Ways to Support -->
+    <section class="support-section">
+        <h2 class="section-title">How You Can Help</h2>
+        <div class="support-cards">
+            <div class="support-card">
+                <i class="fas fa-hand-holding-heart"></i>
+                <h3>Donate</h3>
+                <p>
+                    Your contribution can help us maintain the website, expand educational content,
+                    and preserve memorial stories for future generations.
+                </p>
+                <a href="#donation-modal" id="open-donate" class="support-btn">Donate Now</a>
+            </div>
+
+            <div class="support-card">
+                <i class="fas fa-bullhorn"></i>
+                <h3>Spread Awareness</h3>
+                <p>
+                    Share our platform with schools, communities, and families so more people can
+                    learn, reflect, and take action against gender-based violence.
+                </p>
+                <a href="#share-modal" id="open-share" class="support-btn">Share This Mission</a>
+            </div>
+
+            <div class="support-card">
+                <i class="fas fa-users"></i>
+                <h3>Volunteer</h3>
+                <p>
+                    Join us in collecting stories, building educational resources, and helping
+                    the community remember and heal together.
+                </p>
+                <a href="#volunteer-modal" id="open-volunteer" class="support-btn">Get Involved</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Message -->
+    <section class="support-message">
+        <div class="support-message-box">
+            <h2>Every Action Matters</h2>
+            <p>
+                Whether you donate, share, or volunteer, your support helps us build a future
+                where remembrance leads to awareness, and awareness leads to change.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="support-footer">
+        <p>&copy; 2026 History for Tomorrow. All rights reserved.</p>
+    </footer>
+
+    <div id="donation-modal" class="donation-modal" aria-hidden="true">
+        <div class="donation-content" role="dialog" aria-modal="true" aria-labelledby="donation-title">
+
+            <span class="close-modal" aria-label="Close donation modal">&times;</span>
+
+            <h2 id="donation-title">Support the Mission</h2>
+            <p>Select an amount to donate</p>
+
+            <div class="donation-options">
+                <button type="button" class="donation-amount active" data-amount="50">R50</button>
+                <button type="button" class="donation-amount" data-amount="100">R100</button>
+                <button type="button" class="donation-amount" data-amount="200">R200</button>
+                <button type="button" class="donation-amount" data-amount="500">R500</button>
+            </div>
+
+            <form action="https://www.paypal.com/donate" method="post" target="_blank">
+                <input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL">
+                <input type="hidden" name="currency_code" value="ZAR">
+                <input type="hidden" name="amount" id="paypal-amount" value="50">
+
+                <button type="submit" class="paypal-btn">
+                    <i class="fab fa-paypal"></i> Continue to PayPal
+                </button>
+            </form>
+
+            <p class="secure-note">Secure payment powered by PayPal</p>
+
+        </div>
+    </div>
+
+    <div id="share-modal" class="donation-modal" aria-hidden="true">
+        <div class="donation-content share-content" role="dialog" aria-modal="true" aria-labelledby="share-title">
+
+            <span class="close-modal" aria-label="Close share modal">&times;</span>
+
+            <h2 id="share-title">Share This Mission</h2>
+            <p>Choose where you want to share our message.</p>
+
+            <div class="share-platforms">
+                <a id="share-whatsapp" class="share-option whatsapp" href="#" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </a>
+                <a id="share-facebook" class="share-option facebook" href="#" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-facebook-f"></i>
+                    <span>Facebook</span>
+                </a>
+                <a id="share-twitter" class="share-option twitter" href="#" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-x-twitter"></i>
+                    <span>X</span>
+                </a>
+                <a id="share-email" class="share-option email" href="#">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email</span>
+                </a>
+                <button type="button" id="copy-link-btn" class="share-option copy-link">
+                    <i class="fas fa-link"></i>
+                    <span>Copy Link</span>
+                </button>
+            </div>
+
+            <p class="share-feedback" id="share-feedback" aria-live="polite"></p>
+
+        </div>
+    </div>
+
+    <div id="volunteer-modal" class="donation-modal" aria-hidden="true">
+        <div class="donation-content volunteer-content" role="dialog" aria-modal="true" aria-labelledby="volunteer-title">
+
+            <span class="close-modal" aria-label="Close volunteer modal">&times;</span>
+
+            <h2 id="volunteer-title">Volunteer With Us</h2>
+            <p>Choose the kind of support you would like to offer.</p>
+
+            <div class="volunteer-roles">
+                <div class="volunteer-role">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Story Collection</h3>
+                    <p>Help gather and preserve stories with care, respect, and accuracy.</p>
+                </div>
+                <div class="volunteer-role">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>Education Support</h3>
+                    <p>Assist with research, learning resources, and awareness material for schools.</p>
+                </div>
+                <div class="volunteer-role">
+                    <i class="fas fa-people-group"></i>
+                    <h3>Community Outreach</h3>
+                    <p>Help us connect with families, schools, and local communities.</p>
+                </div>
+                <div class="volunteer-role">
+                    <i class="fas fa-pen-nib"></i>
+                    <h3>Content Help</h3>
+                    <p>Support writing, editing, and publishing educational or memorial content.</p>
+                </div>
+            </div>
+
+            <div class="volunteer-actions">
+                <a href="contact.html" class="support-btn volunteer-cta">Go to Contact Form</a>
+                <a href="mailto:hello@historyfortomorrow.org?subject=Volunteer%20Interest" class="support-btn volunteer-cta volunteer-secondary">Email Us Directly</a>
+            </div>
+
+        </div>
+    </div>
+<script>
+const donationModal = document.getElementById("donation-modal");
+const donationOpenBtn = document.getElementById("open-donate");
+const amountButtons = document.querySelectorAll(".donation-amount");
+const paypalAmount = document.getElementById("paypal-amount");
+const shareModal = document.getElementById("share-modal");
+const shareOpenBtn = document.getElementById("open-share");
+const volunteerModal = document.getElementById("volunteer-modal");
+const volunteerOpenBtn = document.getElementById("open-volunteer");
+const shareWhatsapp = document.getElementById("share-whatsapp");
+const shareFacebook = document.getElementById("share-facebook");
+const shareTwitter = document.getElementById("share-twitter");
+const shareEmail = document.getElementById("share-email");
+const copyLinkBtn = document.getElementById("copy-link-btn");
+const shareFeedback = document.getElementById("share-feedback");
+
+const setupModal = (modal, openBtn) => {
+    if (!modal || !openBtn) {
+        return null;
+    }
+
+    const closeBtn = modal.querySelector(".close-modal");
+
+    const openModal = (event) => {
+        event.preventDefault();
+        modal.style.display = "flex";
+        modal.setAttribute("aria-hidden", "false");
+    };
+
+    const closeModal = () => {
+        modal.style.display = "none";
+        modal.setAttribute("aria-hidden", "true");
+    };
+
+    openBtn.addEventListener("click", openModal);
+    if (closeBtn) {
+        closeBtn.addEventListener("click", closeModal);
+    }
+
+    window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    window.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            closeModal();
+        }
+    });
+
+    return { openModal, closeModal };
+};
+
+setupModal(donationModal, donationOpenBtn);
+setupModal(shareModal, shareOpenBtn);
+setupModal(volunteerModal, volunteerOpenBtn);
+
+if (donationModal && donationOpenBtn && paypalAmount) {
+
+    amountButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            amountButtons.forEach((btn) => btn.classList.remove("active"));
+            button.classList.add("active");
+            paypalAmount.value = button.getAttribute("data-amount");
+        });
+    });
+}
+
+if (shareModal && shareOpenBtn && shareWhatsapp && shareFacebook && shareTwitter && shareEmail && copyLinkBtn && shareFeedback) {
+    const currentUrl = window.location.href;
+    const shareText = "Support History for Tomorrow and help raise awareness against gender-based violence.";
+    const encodedUrl = encodeURIComponent(currentUrl);
+    const encodedText = encodeURIComponent(shareText);
+
+    shareWhatsapp.href = `https://wa.me/?text=${encodedText}%20${encodedUrl}`;
+    shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+    shareTwitter.href = `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`;
+    shareEmail.href = `mailto:?subject=${encodeURIComponent("Support the Mission | History for Tomorrow")}&body=${encodedText}%0A%0A${encodedUrl}`;
+
+    copyLinkBtn.addEventListener("click", async () => {
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(currentUrl);
+            } else {
+                const tempInput = document.createElement("input");
+                tempInput.value = currentUrl;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+            }
+
+            shareFeedback.textContent = "Link copied. You can now paste it anywhere.";
+        } catch (error) {
+            shareFeedback.textContent = "Could not copy automatically. Please copy the page link from your browser.";
+        }
+    });
+}
+</script>
+</body>
+</html>

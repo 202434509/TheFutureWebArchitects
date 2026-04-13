@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education — History for Tomorrow</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root { --red:#b3131b; --red-dark:#7e0e14; --black:#111; --white:#fff; --soft:#f3f4f6; --cream:#f7f2ea; --line:#e5e7eb; --text:#1f2937; --muted:#6b7280; --display:"Bebas Neue",sans-serif; --body:"DM Sans",sans-serif; --shadow:0 18px 40px rgba(17,17,17,.08); }
+        body { margin:0; color:var(--text); background:#fff; font-family:var(--body); }
+        .reading-bar { position:fixed; top:0; left:0; width:0; height:4px; background:linear-gradient(90deg,var(--red),#ef4444); z-index:2000; transition:width .15s linear; }
+        #navbar { background:rgba(255,255,255,.96); box-shadow:0 2px 16px rgba(17,17,17,.06); backdrop-filter:blur(12px); }
+        #navbar .logo-text { color:var(--black); }
+        #navbar .logo-text span { color:var(--red); }
+        #navbar .nav-links a { color:var(--red); }
+        #navbar .nav-links a[aria-current="page"] { color:var(--black); }
+        .edu-hero { margin-top:88px; padding:84px 60px 60px; display:grid; grid-template-columns:minmax(0,1.2fr) minmax(280px,420px); gap:40px; align-items:end; color:var(--white); background:linear-gradient(140deg,rgba(17,17,17,.97),rgba(48,10,12,.92)); position:relative; overflow:hidden; }
+        .edu-hero::before { content:"EDUCATION"; position:absolute; right:-10px; top:6px; font-family:var(--display); font-size:clamp(110px,18vw,220px); line-height:.9; color:rgba(255,255,255,.05); pointer-events:none; }
+        .edu-hero-text,.hero-stat-block { position:relative; z-index:1; }
+        .edu-hero h1 { margin:0 0 18px; font-family:var(--display); font-size:clamp(52px,8vw,92px); line-height:.95; letter-spacing:1px; }
+        .edu-hero h1 span { color:#ff6b6b; }
+        .edu-hero p { margin:0; max-width:560px; color:rgba(255,255,255,.82); line-height:1.8; }
+        .hero-stat-block { display:grid; gap:16px; }
+        .hero-stat { padding:18px 20px; border:1px solid rgba(255,255,255,.16); border-radius:18px; background:rgba(255,255,255,.08); }
+        .hero-stat .num { display:block; margin-bottom:6px; font-size:2rem; font-weight:700; color:#ff8f8f; }
+        .hero-stat .lbl { display:block; color:rgba(255,255,255,.85); line-height:1.55; }
+        .edu-body { max-width:1260px; margin:0 auto; padding:56px 20px; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:32px; align-items:start; }
+        .edu-content { display:grid; gap:28px; }
+        .section-block,.toc-card,.helpline-card,.quiz-box,.watch-card,.news-card,.resource-card { border:1px solid var(--line); border-radius:22px; background:#fff; box-shadow:var(--shadow); }
+        .section-block,.toc-card,.helpline-card,.quiz-box { padding:24px; }
+        .section-block { scroll-margin-top:110px; }
+        .section-tag,.section-tag-dark,.watch-card-tag { display:inline-flex; align-items:center; gap:8px; padding:7px 12px; border-radius:999px; font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+        .section-tag,.watch-card-tag { background:rgba(179,19,27,.08); color:var(--red); }
+        .section-tag-dark { background:rgba(255,255,255,.12); color:#ffb8b8; }
+        .section-block h2,.watch-section h2,.quiz-section h2,.news-section h2 { margin:16px 0 18px; padding:0; border:0; color:var(--black); font-size:clamp(1.9rem,3vw,2.4rem); text-transform:none; letter-spacing:0; }
+        .section-block p,.watch-section p,.news-section p,.quiz-section p { line-height:1.8; }
+        .pull-quote { margin:22px 0; padding:20px 22px; border-left:4px solid var(--red); border-radius:16px; background:linear-gradient(135deg,rgba(179,19,27,.08),rgba(179,19,27,.02)); }
+        .pull-quote p { margin:0; font-weight:600; color:var(--black); }
+        .type-list,.toc-card ul,.resource-cards,.fact-grid,.warning-grid,.watch-grid,.news-grid,.quiz-options { list-style:none; padding:0; margin:24px 0 0; display:grid; gap:16px; }
+        .type-list li,.resource-card { display:grid; grid-template-columns:64px minmax(0,1fr); gap:16px; align-items:start; padding:18px; border:1px solid var(--line); border-radius:18px; background:#fcfcfc; }
+        .type-icon,.rc-icon { width:56px; height:56px; display:grid; place-items:center; border-radius:16px; background:rgba(179,19,27,.12); color:var(--red); font-size:1.3rem; }
+        .type-list h4,.resource-card h4 { margin:0 0 8px; color:var(--black); }
+        .type-list p,.resource-card p { margin:0; }
+        .fact-grid,.warning-grid,.watch-grid,.news-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+        .fact-card { padding:22px; border-radius:20px; background:linear-gradient(160deg,#1a1a1a,#3a1015); color:#fff; }
+        .fact-num { display:block; margin-bottom:10px; font-family:var(--display); font-size:2.6rem; line-height:.95; color:#ff8f8f; }
+        .fact-card p { color:rgba(255,255,255,.88); }
+        .warning-item { display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:14px; background:var(--soft); border:1px solid var(--line); font-weight:500; }
+        .warning-item i,.toc-card i { color:var(--red); }
+        .edu-sidebar { position:sticky; top:108px; display:grid; gap:18px; }
+        .toc-card h4,.helpline-card h4 { margin:0 0 18px; color:var(--black); }
+        .toc-card ul { margin:0; }
+        .toc-card a { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; color:var(--text); text-decoration:none; transition:background .2s ease,color .2s ease; }
+        .toc-card a:hover { background:rgba(179,19,27,.08); color:var(--red); }
+        .helpline-item { display:grid; gap:4px; padding:12px 0; border-top:1px solid var(--line); }
+        .helpline-item:first-of-type { border-top:0; padding-top:0; }
+        .helpline-item strong,.watch-card-title,.news-card-title a,.quiz-question,.quiz-result h3 { color:var(--black); }
+        .helpline-item span,.watch-card-desc,.news-card-desc,.news-card-date,.quiz-result p { color:var(--muted); }
+        .watch-section,.quiz-section { padding:64px 20px; }
+        .watch-section { background:linear-gradient(180deg,var(--cream),#fff); }
+        .watch-section-inner,.news-section-inner,.quiz-box { max-width:1260px; margin:0 auto; }
+        .watch-section-header,.news-section-header { display:grid; gap:16px; margin-bottom:30px; }
+        .watch-category { margin-top:34px; }
+        .watch-card,.resource-card,.news-card { text-decoration:none; color:inherit; transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+        .watch-card:hover,.resource-card:hover,.news-card:hover { transform:translateY(-4px); }
+        .watch-card-thumb { min-height:140px; display:grid; place-items:center; background:linear-gradient(135deg,#1a1a1a,#5a151d); color:rgba(255,255,255,.85); font-size:2.5rem; border-radius:22px 22px 0 0; }
+        .watch-card-body,.news-card { padding:20px; }
+        .watch-card-title,.news-card-title { margin:10px 0 12px; font-size:1.08rem; font-weight:700; line-height:1.5; }
+        .news-section { padding:64px 20px; background:linear-gradient(160deg,#111,#1f1f1f); }
+        .news-section-header h2,.news-section-header p,.news-attribution { color:#fff; }
+        .news-section-header p,.news-attribution { color:rgba(255,255,255,.78); }
+        .news-loading,.news-error { display:none; align-items:center; gap:12px; padding:16px 18px; border-radius:16px; margin-bottom:18px; }
+        .news-loading { display:flex; background:rgba(255,255,255,.08); color:rgba(255,255,255,.88); }
+        .news-error { background:rgba(179,19,27,.14); color:rgba(255,255,255,.92); }
+        .news-spinner { width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,.25); border-top-color:#fff; animation:spin .8s linear infinite; }
+        .news-card-footer,.quiz-nav { display:flex; justify-content:space-between; gap:16px; align-items:center; flex-wrap:wrap; }
+        .news-read-more,.quiz-score-display { color:var(--red); font-weight:700; text-decoration:none; }
+        .quiz-section { background:#fff; text-align:center; }
+        .quiz-box { margin-top:28px; max-width:880px; text-align:left; }
+        .quiz-progress-bar { height:10px; margin-bottom:24px; border-radius:999px; background:#ececec; overflow:hidden; }
+        .quiz-progress-fill { height:100%; background:linear-gradient(90deg,var(--red),#ef4444); transition:width .3s ease; }
+        .quiz-q-count { margin-bottom:10px; color:var(--muted); font-weight:600; }
+        .quiz-question { font-size:1.35rem; font-weight:700; line-height:1.5; }
+        .quiz-opt,.quiz-next,.quiz-restart { appearance:none; border:0; border-radius:14px; cursor:pointer; font-family:inherit; }
+        .quiz-opt { padding:16px 18px; background:var(--soft); color:var(--black); text-align:left; font-size:1rem; font-weight:600; }
+        .quiz-opt.correct { background:#daf4df; color:#166534; }
+        .quiz-opt.wrong { background:#fde2e2; color:#991b1b; }
+        .quiz-feedback { display:none; margin-top:18px; padding:16px 18px; border-radius:14px; line-height:1.7; }
+        .quiz-feedback.correct { background:#ecfdf3; color:#166534; }
+        .quiz-feedback.wrong { background:#fef2f2; color:#991b1b; }
+        .quiz-next,.quiz-restart { padding:14px 20px; background:linear-gradient(135deg,var(--red),var(--red-dark)); color:#fff; font-weight:700; }
+        .quiz-result { display:none; text-align:center; padding:12px 0 6px; }
+        .result-num { font-family:var(--display); font-size:4rem; line-height:1; color:var(--red); }
+        @keyframes spin { to { transform:rotate(360deg); } }
+        @media (max-width:1080px) { .edu-body { grid-template-columns:1fr; } .edu-sidebar { position:static; grid-template-columns:1fr 1fr; } .watch-grid,.news-grid { grid-template-columns:1fr 1fr; } }
+        @media (max-width:900px) { .edu-hero { grid-template-columns:1fr; padding:72px 20px 44px; } .fact-grid,.warning-grid,.watch-grid,.news-grid { grid-template-columns:1fr; } }
+        @media (max-width:700px) { .edu-body,.watch-section,.news-section,.quiz-section { padding-left:14px; padding-right:14px; } .section-block,.toc-card,.helpline-card,.quiz-box { padding:22px; } .type-list li,.resource-card { grid-template-columns:1fr; } .edu-sidebar { grid-template-columns:1fr; } .quiz-next { width:100%; } }
+    </style>
+</head>
+<body>
+    <div id="readingBar" class="reading-bar" aria-hidden="true"></div>
+
+ <!-- Navigation -->
+
+    <nav id="navbar">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-fist-raised"></i>
+            </div>
+            <div class="logo-text">
+               <span>History for Tomorrow</span>
+            </div>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="education (3).html" aria-current="page">Education</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="support.html">SUPPORT</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+    
+
+<!-- HERO -->
+<section class="edu-hero">
+    <div class="edu-hero-text">
+
+        <h1>Understanding<br><span>Gender-Based</span><br>Violence</h1>
+        <p>Knowledge is the first step to change. Learn about the causes, forms, and impact of GBV — and what every person can do to help end it.</p>
+    </div>
+    <div class="hero-stat-block">
+        <div class="hero-stat"><span class="num">1 in 3</span><span class="lbl">Women globally experience GBV</span></div>
+        <div class="hero-stat"><span class="num">736M</span><span class="lbl">Women affected worldwide</span></div>
+        <div class="hero-stat"><span class="num">137</span><span class="lbl">Women killed daily by partner or family</span></div>
+    </div>
+</section>
+
+<!-- MAIN TWO-COL BODY -->
+<div class="edu-body">
+
+    <main class="edu-content">
+
+        <section class="section-block" id="what">
+            <div class="section-tag">Definition</div>
+            <h2>What Is Gender-Based Violence?</h2>
+            <p>Gender-based violence (GBV) refers to harmful acts directed at an individual based on their gender. It is rooted in gender inequality, the abuse of power, and harmful social norms. GBV affects people of all backgrounds, but women and girls are disproportionately affected.</p>
+            <p>GBV encompasses a broad range of abusive behaviours — physical, sexual, emotional, psychological, and economic — that cause harm, suffering, or deprivation of liberty to the victim. It occurs across all societies, cultures, and income levels.</p>
+            <div class="pull-quote">
+                <p>"Gender-based violence is one of the most widespread, persistent, and devastating human rights violations in our world today."</p>
+            </div>
+            <p>Understanding GBV starts with recognising that it is not a private matter. It is a structural issue driven by unequal power relations — and it demands a collective response.</p>
+        </section>
+
+        <section class="section-block" id="forms">
+            <div class="section-tag">Forms of GBV</div>
+            <h2>Types & Forms</h2>
+            <p>GBV presents in many forms, often overlapping. Recognising all forms is critical to providing appropriate support and justice.</p>
+            <ul class="type-list">
+                <li><div class="type-icon"><i class="fas fa-hand-fist"></i></div><div><h4>Physical Violence</h4><p>Hitting, slapping, kicking, choking, burning, or any physical force used to harm, injure, or intimidate a person.</p></div></li>
+                <li><div class="type-icon"><i class="fas fa-shield-heart"></i></div><div><h4>Sexual Violence</h4><p>Rape, sexual assault, harassment, forced marriage, and any non-consensual sexual act or exploitation.</p></div></li>
+                <li><div class="type-icon"><i class="fas fa-brain"></i></div><div><h4>Psychological / Emotional Violence</h4><p>Verbal abuse, threats, humiliation, isolation, and manipulation that undermine a person's mental well-being.</p></div></li>
+                <li><div class="type-icon"><i class="fas fa-coins"></i></div><div><h4>Economic Violence</h4><p>Denying access to financial resources, preventing employment, or sabotaging a person's economic independence.</p></div></li>
+                <li><div class="type-icon"><i class="fas fa-laptop"></i></div><div><h4>Digital / Technology-Facilitated GBV</h4><p>Cyberstalking, non-consensual sharing of intimate images, and online harassment via technology.</p></div></li>
+                <li><div class="type-icon"><i class="fas fa-ring"></i></div><div><h4>Harmful Traditional Practices</h4><p>FGM, child marriage, honour-based violence, and other cultural practices that harm individuals.</p></div></li>
+            </ul>
+        </section>
+
+        <section class="section-block" id="stats">
+            <div class="section-tag">Key Statistics</div>
+            <h2>The Scale of the Crisis</h2>
+            <p>These figures, drawn from WHO and UN Women data, reflect a global emergency that demands urgent action.</p>
+            <div class="fact-grid">
+                <div class="fact-card"><span class="fact-num">1 in 3</span><p>Women worldwide have experienced physical or sexual violence in their lifetime.</p></div>
+                <div class="fact-card"><span class="fact-num">40%</span><p>of women who experience partner violence ever seek help of any sort.</p></div>
+                <div class="fact-card"><span class="fact-num">137</span><p>Women are killed every day by a partner or family member globally.</p></div>
+                <div class="fact-card"><span class="fact-num">81%</span><p>of women who experienced stalking reported it was perpetrated by a current or former partner.</p></div>
+            </div>
+            <p>In South Africa, the statistics are among the most alarming in the world. GBV is a national crisis — every statistic represents a human life deserving of dignity and safety.</p>
+        </section>
+
+        <section class="section-block" id="signs">
+            <div class="section-tag">Warning Signs</div>
+            <h2>Recognising Warning Signs</h2>
+            <p>Abusive situations often escalate gradually. Knowing the warning signs can help you — or someone you care about — recognise danger early.</p>
+            <div class="warning-grid">
+                <div class="warning-item"><i class="fas fa-circle"></i> Extreme jealousy or possessiveness</div>
+                <div class="warning-item"><i class="fas fa-circle"></i> Controlling finances or daily activities</div>
+                <div class="warning-item"><i class="fas fa-circle"></i> Isolating from friends and family</div>
+                <div class="warning-item"><i class="fas fa-circle"></i> Monitoring phone or location</div>
+                <div class="warning-item"><i class="fas fa-circle"></i> Demeaning or humiliating behaviour</div>
+                <div class="warning-item"><i class="fas fa-circle"></i> Threats of harm or self-harm</div>
+                <div class="warning-item"><i class="fas fa-circle"></i> Sudden changes in behaviour or mood</div>
+                <div class="warning-item"><i class="fas fa-circle"></i> Physical injuries with unclear explanations</div>
+                <div class="warning-item"><i class="fas fa-circle"></i> Fear of a partner's reactions</div>
+                <div class="warning-item"><i class="fas fa-circle"></i> Pressure for unwanted sexual activity</div>
+            </div>
+            <p>If you recognise these signs, you are not alone. Help is available — see the helplines on this page.</p>
+        </section>
+
+        <section class="section-block" id="help">
+            <div class="section-tag">Taking Action</div>
+            <h2>How You Can Help</h2>
+            <p>Everyone has a role to play in ending GBV — whether as a bystander, survivor, ally, or community member.</p>
+            <ul class="type-list">
+                <li><div class="type-icon"><i class="fas fa-ear-listen"></i></div><div><h4>Listen Without Judgement</h4><p>If someone discloses abuse, believe them. Listen, support, and never blame them for what happened.</p></div></li>
+                <li><div class="type-icon"><i class="fas fa-bullhorn"></i></div><div><h4>Speak Up & Challenge Norms</h4><p>Challenge sexist jokes, harmful attitudes, and gender stereotypes in your community and social circles.</p></div></li>
+                <li><div class="type-icon"><i class="fas fa-phone-volume"></i></div><div><h4>Share Resources</h4><p>Know your local helplines and services. Share them widely — someone in need may not ask directly.</p></div></li>
+                <li><div class="type-icon"><i class="fas fa-scale-balanced"></i></div><div><h4>Advocate for Policy Change</h4><p>Support organisations and policies that protect survivors and fund gender-equality programmes.</p></div></li>
+            </ul>
+        </section>
+
+        <section class="section-block" id="resources">
+            <div class="section-tag">Resources</div>
+            <h2>Further Reading & Resources</h2>
+            <p>Deepen your understanding with these trusted organisations and resources.</p>
+            <div class="resource-cards">
+                <a href="https://www.unwomen.org" target="_blank" rel="noopener" class="resource-card">
+                    <div class="rc-icon"><i class="fas fa-globe"></i></div>
+                    <div class="rc-text"><h4>UN Women</h4><p>Global organisation dedicated to gender equality and the empowerment of women.</p></div>
+                </a>
+                <a href="https://www.who.int/news-room/fact-sheets/detail/violence-against-women" target="_blank" rel="noopener" class="resource-card">
+                    <div class="rc-icon"><i class="fas fa-notes-medical"></i></div>
+                    <div class="rc-text"><h4>WHO — Violence Against Women</h4><p>World Health Organization fact sheets and global data on GBV.</p></div>
+                </a>
+                <a href="https://www.powa.co.za" target="_blank" rel="noopener" class="resource-card">
+                    <div class="rc-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                    <div class="rc-text"><h4>POWA South Africa</h4><p>People Opposing Women Abuse — South African advocacy and support organisation.</p></div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="edu-sidebar">
+        <div class="toc-card">
+            <h4>On This Page</h4>
+            <ul>
+                <li><a href="#what"><i class="fas fa-chevron-right"></i> What Is GBV?</a></li>
+                <li><a href="#forms"><i class="fas fa-chevron-right"></i> Types & Forms</a></li>
+                <li><a href="#stats"><i class="fas fa-chevron-right"></i> Key Statistics</a></li>
+                <li><a href="#signs"><i class="fas fa-chevron-right"></i> Warning Signs</a></li>
+                <li><a href="#help"><i class="fas fa-chevron-right"></i> How to Help</a></li>
+                <li><a href="#resources"><i class="fas fa-chevron-right"></i> Resources</a></li>
+                <li><a href="#watch"><i class="fas fa-chevron-right"></i> Watch & Learn</a></li>
+                <li><a href="#gbv-news"><i class="fas fa-chevron-right"></i> Latest News</a></li>
+            </ul>
+        </div>
+        <div class="helpline-card">
+            <h4> SA Helplines</h4>
+            <div class="helpline-item"><strong>GBV Command Centre</strong><span>0800 428 428 (24/7, Free)</span></div>
+            <div class="helpline-item"><strong>SAPS Emergency</strong><span>10111</span></div>
+            <div class="helpline-item"><strong>Childline SA</strong><span>0800 055 555</span></div>
+            <div class="helpline-item"><strong>POWA</strong><span>011 642 4345</span></div>
+            <div class="helpline-item"><strong>Lifeline SA</strong><span>0861 322 322</span></div>
+        </div>
+    </aside>
+
+</div><!-- end .edu-body -->
+
+<!-- ══ WATCH & LEARN ══════════════════════════════════════════════════ -->
+<section class="watch-section" id="watch">
+    <div class="watch-section-inner">
+
+        <div class="watch-section-header">
+            <div class="section-tag"><i class="fas fa-play-circle"></i>&nbsp; Watch & Learn</div>
+            <h2>Video Resources</h2>
+            <p>Deepen your understanding of GBV through documentaries, awareness campaigns, and educational videos sourced from trusted organisations.</p>
+        </div>
+
+        <!-- Understanding GBV -->
+        <div class="watch-category">
+            <div class="watch-category-label"><i class="fas fa-book-open" style="color:var(--red);margin-right:8px;"></i>Understanding GBV</div>
+            <div class="watch-grid">
+                <a class="watch-card" href="https://youtu.be/Uhg3cxnwNxc" target="_blank" rel="noopener noreferrer">
+                    <div class="watch-card-thumb"><i class="fas fa-play-circle"></i></div>
+                    <div class="watch-card-body">
+                        <div class="watch-card-tag">Explainer</div>
+                        <div class="watch-card-title">What Is GBV? — A Verbal Explanation</div>
+                        <div class="watch-card-desc">A clear, accessible breakdown of what gender-based violence is and why it matters.</div>
+                    </div>
+                </a>
+                <a class="watch-card" href="https://youtu.be/Ked1zGySa7Q" target="_blank" rel="noopener noreferrer">
+                    <div class="watch-card-thumb"><i class="fas fa-play-circle"></i></div>
+                    <div class="watch-card-body">
+                        <div class="watch-card-tag">Guide</div>
+                        <div class="watch-card-title">How to End GBV</div>
+                        <div class="watch-card-desc">Practical steps and community-level strategies for addressing and ending gender-based violence.</div>
+                    </div>
+                </a>
+                <a class="watch-card" href="https://youtu.be/UpgZ5PCuf8A" target="_blank" rel="noopener noreferrer">
+                    <div class="watch-card-thumb"><i class="fas fa-play-circle"></i></div>
+                    <div class="watch-card-body">
+                        <div class="watch-card-tag">Education</div>
+                        <div class="watch-card-title">Gender Inequality & Domestic Violence</div>
+                        <div class="watch-card-desc">Explores the link between gender inequality and domestic violence with real-world context.</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Prevention & Awareness -->
+        <div class="watch-category">
+            <div class="watch-category-label"><i class="fas fa-bullhorn" style="color:var(--red);margin-right:8px;"></i>Prevention & Awareness</div>
+            <div class="watch-grid">
+                <a class="watch-card" href="https://youtu.be/IYmBOTi1d9U" target="_blank" rel="noopener noreferrer">
+                    <div class="watch-card-thumb"><i class="fas fa-play-circle"></i></div>
+                    <div class="watch-card-body">
+                        <div class="watch-card-tag">Prevention</div>
+                        <div class="watch-card-title">How to Prevent GBV</div>
+                        <div class="watch-card-desc">Actionable prevention strategies for communities, schools, and individuals.</div>
+                    </div>
+                </a>
+                <a class="watch-card" href="https://youtu.be/dIFZYDVc5Gg" target="_blank" rel="noopener noreferrer">
+                    <div class="watch-card-thumb"><i class="fas fa-play-circle"></i></div>
+                    <div class="watch-card-body">
+                        <div class="watch-card-tag">Awareness</div>
+                        <div class="watch-card-title">Raising Awareness About GBV</div>
+                        <div class="watch-card-desc">How awareness campaigns are changing attitudes and saving lives across South Africa.</div>
+                    </div>
+                </a>
+                <a class="watch-card" href="https://youtu.be/7C99AFS6M4g" target="_blank" rel="noopener noreferrer">
+                    <div class="watch-card-thumb"><i class="fas fa-play-circle"></i></div>
+                    <div class="watch-card-body">
+                        <div class="watch-card-tag">Children</div>
+                        <div class="watch-card-title">School-Related Gender-Based Violence</div>
+                        <div class="watch-card-desc">Understanding and addressing GBV in school environments — for educators and parents.</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Action & Advocacy -->
+        <div class="watch-category">
+            <div class="watch-category-label"><i class="fas fa-fist-raised" style="color:var(--red);margin-right:8px;"></i>Action & Advocacy in South Africa</div>
+            <div class="watch-grid">
+                <a class="watch-card" href="https://youtu.be/D1AFyXtEpAE" target="_blank" rel="noopener noreferrer">
+                    <div class="watch-card-thumb"><i class="fas fa-play-circle"></i></div>
+                    <div class="watch-card-body">
+                        <div class="watch-card-tag">Protest</div>
+                        <div class="watch-card-title">Striking Back Against GBV</div>
+                        <div class="watch-card-desc">Footage and stories from South Africans taking a stand against gender-based violence.</div>
+                    </div>
+                </a>
+                <a class="watch-card" href="https://youtu.be/Klq7Aquhp0s" target="_blank" rel="noopener noreferrer">
+                    <div class="watch-card-thumb"><i class="fas fa-play-circle"></i></div>
+                    <div class="watch-card-body">
+                        <div class="watch-card-tag">Movement</div>
+                        <div class="watch-card-title">Women in Change</div>
+                        <div class="watch-card-desc">South African women leading the movement for safety, dignity, and equality.</div>
+                    </div>
+                </a>
+                <a class="watch-card" href="https://youtu.be/044Ey0N7tII" target="_blank" rel="noopener noreferrer">
+                    <div class="watch-card-thumb"><i class="fas fa-play-circle"></i></div>
+                    <div class="watch-card-body">
+                        <div class="watch-card-tag">March</div>
+                        <div class="watch-card-title">National Shutdown for Change</div>
+                        <div class="watch-card-desc">Coverage of the national shutdown march demanding government action on GBV.</div>
+                    </div>
+                </a>
+                <a class="watch-card" href="https://youtu.be/atMTFpX_TN4" target="_blank" rel="noopener noreferrer">
+                    <div class="watch-card-thumb"><i class="fas fa-play-circle"></i></div>
+                    <div class="watch-card-body">
+                        <div class="watch-card-tag">Documentary</div>
+                        <div class="watch-card-title">GBV Documentary</div>
+                        <div class="watch-card-desc">An in-depth documentary exploring the realities of gender-based violence in South Africa.</div>
+                    </div>
+                </a>
+                <a class="watch-card" href="https://youtu.be/mSJ2xfRmpMw" target="_blank" rel="noopener noreferrer">
+                    <div class="watch-card-thumb"><i class="fas fa-play-circle"></i></div>
+                    <div class="watch-card-body">
+                        <div class="watch-card-tag">News</div>
+                        <div class="watch-card-title">SA Declares GBV a National Disaster</div>
+                        <div class="watch-card-desc">News coverage of South Africa's landmark declaration of GBV as a national emergency.</div>
+                    </div>
+                </a>
+                <a class="watch-card" href="https://youtu.be/JZqAuRa7o7w" target="_blank" rel="noopener noreferrer">
+                    <div class="watch-card-thumb"><i class="fas fa-play-circle"></i></div>
+                    <div class="watch-card-body">
+                        <div class="watch-card-tag">Children</div>
+                        <div class="watch-card-title">Gender Equality — Save the Children</div>
+                        <div class="watch-card-desc">Child-friendly content explaining abuse, where to get help, and how to stay safe.</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ══ NEWS ═══════════════════════════════════════════════════════════ -->
+<section class="news-section" id="gbv-news">
+    <div class="news-section-inner">
+        <div class="news-section-header">
+            <div>
+                <div class="section-tag-dark"><i class="fas fa-newspaper"></i>&nbsp; Live Updates</div>
+                <h2 style="font-family:var(--font-display);font-size:2.4rem;color:var(--white);letter-spacing:2px;line-height:1.1;margin-top:10px;">Latest GBV News in South Africa</h2>
+            </div>
+            <p>Stay informed with current news about Gender-Based Violence in South Africa. Real-time updates help us understand the ongoing crisis and advocacy efforts.</p>
+        </div>
+        <div id="news-loading" class="news-loading"><div class="news-spinner"></div><span>Loading latest news…</span></div>
+        <div id="news-error" class="news-error"><i class="fas fa-exclamation-triangle" style="color:var(--red);margin-right:8px;"></i><span>Unable to load live news. Showing curated resources below.</span></div>
+        <div id="news-container" class="news-grid"></div>
+        <div class="news-attribution" id="news-attribution">Live news uses NewsAPI when configured. Curated resources appear as a fallback.</div>
+    </div>
+</section>
+
+<!-- ══ QUIZ ════════════════════════════════════════════════════════════ -->
+<section class="quiz-section">
+    <h2>Test Your Knowledge</h2>
+    <p>Take our short awareness quiz on gender-based violence.</p>
+    <div class="quiz-box">
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgress" style="width:0%"></div></div>
+        <div id="quizContent">
+            <div class="quiz-q-count" id="quizCount">Question 1 of 6</div>
+            <div class="quiz-question" id="quizQuestion"></div>
+            <div class="quiz-options" id="quizOptions"></div>
+            <div class="quiz-feedback" id="quizFeedback"></div>
+            <div class="quiz-nav">
+                <span class="quiz-score-display" id="quizScore">Score: 0</span>
+                <button type="button" class="quiz-next" id="quizNext" onclick="nextQuestion()">Next &rarr;</button>
+            </div>
+        </div>
+        <div class="quiz-result" id="quizResult">
+            <div class="result-num" id="resultNum">0/6</div>
+            <h3 id="resultMsg"></h3>
+            <p id="resultDesc"></p>
+            <button type="button" class="quiz-restart" onclick="restartQuiz()">Try Again</button>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <h3>History for Tomorrow</h3>
+        <p>Educating communities. Empowering survivors. Demanding change.</p>
+    </div>
+    <div class="bottom-bar">
+        <p>&copy; 2026 History for Tomorrow. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script>
+const readingBar = document.getElementById("readingBar");
+const navbar = document.getElementById("navbar");
+
+function updateScrollUI() {
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    if (readingBar) readingBar.style.width = `${progress}%`;
+    if (navbar) navbar.classList.toggle("scrolled", scrollTop > 40);
+}
+
+window.addEventListener("scroll", updateScrollUI);
+
+// ── NEWS ──────────────────────────────────────────────────────────────
+const NEWS_API_KEY = "YOUR_NEWSAPI_KEY_HERE";
+const newsContainer = document.getElementById("news-container");
+const newsLoading = document.getElementById("news-loading");
+const newsError = document.getElementById("news-error");
+const newsAttribution = document.getElementById("news-attribution");
+
+function formatDate(iso) {
+    if (!iso) return "";
+    return new Date(iso).toLocaleDateString("en-ZA", { year: "numeric", month: "short", day: "numeric" });
+}
+
+function buildCard(title, source, desc, url, date) {
+    const card = document.createElement("article");
+    card.className = "news-card";
+    card.innerHTML = `
+        <div class="news-card-source">${source}</div>
+        <div class="news-card-title"><a href="${url}" target="_blank" rel="noopener noreferrer">${title}</a></div>
+        <p class="news-card-desc">${desc || "No description available."}</p>
+        <div class="news-card-footer">
+            <span class="news-card-date">${date}</span>
+            <a class="news-read-more" href="${url}" target="_blank" rel="noopener noreferrer">Read more &rarr;</a>
+        </div>`;
+    return card;
+}
+
+function displayNews(articles) {
+    if (!newsContainer) return;
+    newsContainer.innerHTML = "";
+    articles.forEach((article) => {
+        newsContainer.appendChild(
+            buildCard(
+                article.title,
+                article.source?.name || "News Source",
+                article.description || article.desc,
+                article.url,
+                formatDate(article.publishedAt)
+            )
+        );
+    });
+}
+
+function displayFallbackNews() {
+    displayNews([
+        { title: "Understanding GBV Statistics in South Africa", source: "Educational Resource", desc: "South Africa has some of the highest rates of GBV globally. Understanding the scope is the first step toward change.", url: "https://www.gov.za/gender-based-violence" },
+        { title: "How to Report GBV in South Africa", source: "Help Guide", desc: "Know your rights and the steps to take if you or someone you know experiences gender-based violence.", url: "https://www.saps.gov.za/" },
+        { title: "Support Organisations for GBV Survivors", source: "Resource Directory", desc: "POWA, TEARS Foundation, and the GBV Command Centre provide essential support services across South Africa.", url: "https://www.powa.co.za/" }
+    ]);
+}
+
+async function fetchGBVNews() {
+    if (!newsContainer || !newsLoading || !newsError) return;
+    const hasRealApiKey = NEWS_API_KEY && !NEWS_API_KEY.startsWith("YOUR_");
+    const canUseLiveNews = hasRealApiKey && window.location.protocol !== "file:";
+
+    if (!canUseLiveNews) {
+        newsError.style.display = "flex";
+        newsError.lastElementChild.textContent = "Live news is not configured yet. Showing curated resources below.";
+        newsLoading.style.display = "none";
+        if (newsAttribution) newsAttribution.textContent = "Showing curated South African GBV resources. Add a NewsAPI key to enable live updates.";
+        displayFallbackNews();
+        return;
+    }
+
+    try {
+        const query = encodeURIComponent('("gender-based violence" OR GBV OR femicide OR "domestic violence") AND "South Africa"');
+        const url = `https://newsapi.org/v2/everything?q=${query}&language=en&sortBy=publishedAt&pageSize=6&apiKey=${NEWS_API_KEY}`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("API error");
+        const data = await response.json();
+        if (data.articles?.length) displayNews(data.articles);
+        else throw new Error("No articles");
+    } catch {
+        newsError.style.display = "flex";
+        newsError.lastElementChild.textContent = "Unable to load live news. Showing curated resources below.";
+        displayFallbackNews();
+    } finally {
+        newsLoading.style.display = "none";
+    }
+}
+
+// ── QUIZ ──────────────────────────────────────────────────────────────
+const quizData = [
+    { q: "Which of the following is NOT considered a form of gender-based violence?", opts: ["Physical assault","Emotional manipulation","Controlling finances","Respectful disagreement"], correct: 3, feedback: "Respectful disagreement is a normal part of healthy relationships. GBV includes physical, emotional, economic, and sexual violence — all intended to control, harm, or intimidate." },
+    { q: "Approximately what fraction of women worldwide experience physical or sexual violence in their lifetime?", opts: ["1 in 10","1 in 5","1 in 3","1 in 2"], correct: 2, feedback: "According to WHO, 1 in 3 women globally have experienced physical or sexual violence — highlighting just how widespread this crisis is." },
+    { q: "What does 'coercive control' refer to in the context of GBV?", opts: ["Physical violence only","A pattern of behaviour used to dominate and control a partner","Disagreements about finances","Seeking control over your own emotions"], correct: 1, feedback: "Coercive control is a pattern of behaviour that seeks to take away the victim's liberty or freedom, including isolation, monitoring, degradation, and threats. It is a form of abuse even without physical violence." },
+    { q: "Which South African helpline should someone call in a GBV emergency?", opts: ["0800 428 428","011 100 200","0860 010 111","0800 123 999"], correct: 0, feedback: "The GBV Command Centre (0800 428 428) is available 24/7 and free to call. They provide support, referrals, and can dispatch help if needed." },
+    { q: "Technology-facilitated GBV can include which of the following?", opts: ["Sending a birthday message","Sharing holiday photos","Non-consensual sharing of intimate images","Online shopping"], correct: 2, feedback: "Technology-facilitated GBV includes cyberstalking, sharing intimate images without consent, digital surveillance, and online harassment. It is a growing and serious form of abuse." },
+    { q: "What is the most important first step when supporting someone who discloses abuse?", opts: ["Tell them to call the police immediately","Ask why they stayed so long","Listen and believe them without judgement","Contact their partner to hear both sides"], correct: 2, feedback: "Listening without judgement and believing the survivor is the most important first step. Many survivors fear not being believed — your support can be life-changing." }
+];
+
+let currentQ = 0, score = 0, answered = false;
+
+function loadQuestion() {
+    const q = quizData[currentQ];
+    document.getElementById('quizCount').textContent    = `Question ${currentQ + 1} of ${quizData.length}`;
+    document.getElementById('quizQuestion').textContent = q.q;
+    document.getElementById('quizProgress').style.width = `${(currentQ / quizData.length) * 100}%`;
+    document.getElementById('quizFeedback').style.display = 'none';
+    document.getElementById('quizFeedback').className     = 'quiz-feedback';
+    document.getElementById('quizNext').style.display     = 'none';
+    document.getElementById('quizScore').textContent      = `Score: ${score}`;
+    answered = false;
+    const opts = document.getElementById('quizOptions');
+    opts.innerHTML = '';
+    q.opts.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'quiz-opt'; btn.textContent = opt;
+        btn.onclick = () => selectAnswer(i);
+        opts.appendChild(btn);
+    });
+}
+
+function selectAnswer(idx) {
+    if (answered) return;
+    answered = true;
+    const q = quizData[currentQ];
+    document.querySelectorAll('.quiz-opt').forEach((btn, i) => {
+        btn.onclick = null;
+        if (i === q.correct) btn.classList.add('correct');
+        else if (i === idx && idx !== q.correct) btn.classList.add('wrong');
+    });
+    if (idx === q.correct) score++;
+    const fb = document.getElementById('quizFeedback');
+    fb.textContent = q.feedback;
+    fb.className   = 'quiz-feedback ' + (idx === q.correct ? 'correct' : 'wrong');
+    fb.style.display = 'block';
+    document.getElementById('quizNext').style.display  = 'inline-block';
+    document.getElementById('quizScore').textContent   = `Score: ${score}`;
+}
+
+function nextQuestion() { currentQ++; currentQ < quizData.length ? loadQuestion() : showResult(); }
+
+function showResult() {
+    document.getElementById('quizContent').style.display = 'none';
+    document.getElementById('quizResult').style.display  = 'block';
+    document.getElementById('resultNum').textContent      = `${score}/${quizData.length}`;
+    document.getElementById('quizProgress').style.width   = '100%';
+    const msgs = score === quizData.length
+        ? ['🏆 Excellent!',   'You have a strong understanding of GBV. Share this page to spread awareness.']
+        : score >= quizData.length / 2
+        ? ['👍 Good Effort!', 'You know the basics — review the sections above to strengthen your understanding.']
+        : ['📚 Keep Learning','GBV education is important. Read through the content above and try again.'];
+    document.getElementById('resultMsg').textContent  = msgs[0];
+    document.getElementById('resultDesc').textContent = msgs[1];
+}
+
+function restartQuiz() {
+    currentQ = 0; score = 0; answered = false;
+    document.getElementById('quizResult').style.display  = 'none';
+    document.getElementById('quizContent').style.display = 'block';
+    loadQuestion();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateScrollUI();
+    fetchGBVNews();
+    restartQuiz();
+});
+</script>
+</body>
+</html>
